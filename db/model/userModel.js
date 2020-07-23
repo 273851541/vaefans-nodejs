@@ -10,8 +10,7 @@ let userSchema = new mongoose.Schema({
     age: {type: Number, default: 0},
     phone: {type: String, default: ''},
     created_at: {type: String, require: true},
-    updated_at: {type: String, default: ''},
-    // loves: {type: mongoose.Schema.Types.ObjectId, ref: 'loves'}
+    updated_at: {type: String, default: ''}
 })
 
 let Users = mongoose.model('users', userSchema);

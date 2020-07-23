@@ -7,6 +7,7 @@ let todaySchema = new mongoose.Schema({
     bgUrl:{type:String,require:true},
     title:{type:String,require:true},
     author:{type:String,require:true},
+    "_userId":{type:mongoose.Schema.Types.ObjectId,require:true},
 })
 
 let Today = mongoose.model('todays',todaySchema);

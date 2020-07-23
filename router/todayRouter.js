@@ -61,4 +61,32 @@ router.post('/removeToday',(req, res)=>{
     }
 })
 
+
+/**
+ * @api {post} /today/removeToday 查询today
+ * @apiName removeToday
+ * @apiGroup today
+ *
+ * @apiParam {String} _id today ID
+ *
+ */
+router.post('/getToday',(req, res)=>{
+    let {_userId} = req.body;
+    if(_userId){
+        todayModel.find({_userId})
+            .then((data)=>{
+                if(data.length===0){
+                    res.send({err:0,msg:'项目不存在'})
+                }else{
+                    res.send({err:0,msg:'查询成功',data})
+                }
+            })
+            .catch(()=>{
+                res.send({err:-1,msg:'查询失败'})
+            })
+    }else{
+        res.send({err:-1,msg:'缺少必要字段'})
+    }
+})
+
 module.exports = router;
