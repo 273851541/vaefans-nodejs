@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const todayModel = require('../db/model/todayModel');
+const blogModel = require('../db/model/blogModel');
 
 
 /**
- * @api {post} /today/addToday 添加today
- * @apiName addToday
- * @apiGroup today
+ * @api {post} /blog/addBlog 添加blog
+ * @apiName addBlog
+ * @apiGroup blog
  *
  * @apiParam {String} content 内容
  * @apiParam {String} songId 歌曲ID
@@ -15,9 +15,9 @@ const todayModel = require('../db/model/todayModel');
  * @apiParam {String} author 作者
  *
  */
-router.post('/addToday',(req, res)=>{
+router.post('/addBlog',(req, res)=>{
     if(req.body){
-        todayModel.insertMany(req.body)
+        blogModel.insertMany(req.body)
             .then(()=>{
 
                 res.send({err:0,msg:'添加成功'})
@@ -32,22 +32,22 @@ router.post('/addToday',(req, res)=>{
 
 
 /**
- * @api {post} /today/removeToday 删除today
- * @apiName removeToday
- * @apiGroup today
+ * @api {post} /blog/removeBlog 删除blog
+ * @apiName removeBlog
+ * @apiGroup blog
  *
- * @apiParam {String} _id today ID
+ * @apiParam {String} _id blog ID
  *
  */
-router.post('/removeToday',(req, res)=>{
+router.post('/removeBlog',(req, res)=>{
     let {_id} = req.body;
     if(_id){
-        todayModel.find({_id:{$in:_id}})
+        blogModel.find({_id:{$in:_id}})
             .then((data)=>{
                 if(data.length===0){
                     res.send({err:0,msg:'项目不存在'})
                 }else{
-                    return todayModel.deleteMany({_id:{$in:_id}});
+                    return blogModel.deleteMany({_id:{$in:_id}});
                 }
             })
             .then(()=>{
@@ -63,17 +63,18 @@ router.post('/removeToday',(req, res)=>{
 
 
 /**
- * @api {post} /today/removeToday 查询today
- * @apiName removeToday
- * @apiGroup today
+ * @api {post} /blog/removeBlog 查询blog
+ * @apiName removeBlog
+ * @apiGroup blog
  *
- * @apiParam {String} _id today ID
+ * @apiParam {String} _id blog ID
  *
  */
-router.post('/getToday',(req, res)=>{
-    // let {_userId} = req.body;
+router.post('/getBlog',(req, res)=>{
+    let {pageSize,pageIndex} = req.body;
+    console.log(pageSize,pageIndex)
     // if(_userId){
-        todayModel.find({})
+        blogModel.find({}).limit(pageSize||10).skip(pageIndex||0)
             .then((data)=>{
                 if(data.length===0){
                     res.send({err:0,msg:'项目不存在'})
